@@ -1,81 +1,47 @@
-import HashMap "mo:base/HashMap";
-import Iter "mo:base/Iter";
-import Nat32 "mo:base/Nat32";
-import Text "mo:base/Text";
-import Principal "mo:base/Principal";
-import Debug "mo:base/Debug";
+actor ConferenceBackend {
 
+  // Define a structure for conferences
+  type Conference = {
+    id: Nat;
+    day: Text;
+    time: Text;
+    topic: Text;
+    speaker: Text;
+    location: Text;
+    description: Text;
+  };
 
-actor Areas {
-  type Area = {
-		nombre: Text;
-	};
+  // Variable stable to store conferences
+  stable var conferences : [Conference] = [];
 
-  type areaID = Nat32;
-	stable var areaID: areaID = 0;
+  // Variable to manage the ID of the conference
+  var nextId : Nat = 0;
 
-	let listaAreas = HashMap.HashMap<Text, Area>(0, Text.equal, Text.hash);
+  // Function to add a conference
+  public func addConference(day: Text, time: Text, topic: Text, speaker: Text, location: Text, description: Text) : () {
+    let newConference : Conference = {
+      id = nextId;
+      day = day;
+      time = time;
+      topic = topic;
+      speaker = speaker;
+      location = location;
+      description = description;
+    };
+    conferences := conferences # [newConference];  // Use # operator to append newConference to conferences
+    nextId += 1;
+  };
 
-	private func generaAreaID() : Nat32 {
-		areaID += 1;
-		return areaID;
-	};
-	
-	public query ({caller}) func whoami() : async Principal {
-		return caller;
-	};
+  // Function to get all conferences
+  public func getConferences() : [Conference] {
+    conferences;  // Return the stable variable conferences directly
+  };
 
-	public shared (msg) func crearArea(nombre: Text) : async () {
-		let area = {nombre=nombre};
-
-		listaAreas.put(Nat32.toText(generaAreaID()), area);
-		Debug.print("Nueva área creada ID: " # Nat32.toText(areaID));
-		return ();
-	};
-
-	public query func obtieneAreas () : async [(Text, Area)] {
-		let areaIter : Iter.Iter<(Text, Area)> = listaAreas.entries();
-		let areaArray : [(Text, Area)] = Iter.toArray(areaIter);
-		Debug.print("Areas ");
-
-		return areaArray;
-	};
-
-	public query func obtieneArea (id: Text) : async ?Area {
-		let area: ?Area = listaAreas.get(id);
-		return area;
-	};
-
-	public shared (msg) func actualizarArea (id: Text, nombre: Text) : async Bool {
-		let area: ?Area = listaAreas.get(id);
-
-		switch (area) {
-			case (null) {
-				return false;
-			};
-			case (?areaActual) {
-				let nuevaArea: Area = {nombre=nombre};
-				listaAreas.put(id, nuevaArea);
-				Debug.print("Area actualizada: " # id);
-				return true;
-			};
-		};
-
-	};
-
-	public func eliminarArea (id: Text) : async Bool {
-		let area : ?Area = listaAreas.get(id);
-		switch (area) {
-			case (null) {
-				return false;
-			};
-			case (_) {
-				ignore listaAreas.remove(id);
-				Debug.print("Área eliminadaD: " # id);
-				return true;
-			};
-		};
-	};
-
+  // Function to delete a conference by ID
+  public func deleteConferenceById(id: Nat) : () {
+    conferences := Array.filter(conferences, func(conf) {
+      conf.id != id;
+    });
+  };
 
 };
