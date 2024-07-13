@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import './Login.css';  // Archivo CSS para las animaciones
 
 const Login = () => {
   const [images, setImages] = useState([]);
@@ -30,13 +29,6 @@ const Login = () => {
       <p>
         Proyecto ICP Poseidon enfocado a la generación de soluciones para el desabasto/desaprovechamiento del agua basado en filtros de agua, medidor de caudal, sistemas de riego por goteo, suministro inteligente de agua basado en IoT.
       </p>
-      <TransitionGroup className="image-grid">
-        {showImages.map((url, index) => (
-          <CSSTransition key={index} timeout={500} classNames="fade">
-            <img src={url} alt={`Imagen ${index + 1}`} className="img-fluid" />
-          </CSSTransition>
-        ))}
-      </TransitionGroup>
     </section>
   );
 }
