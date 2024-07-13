@@ -4,6 +4,8 @@ import { ConnectButton, ConnectDialog, Connect2ICProvider } from "@connect2ic/re
 import * as otro_backend from "declarations/otro_backend";
 import { useConnect } from "@connect2ic/react";
 import { BrowserRouter, Route, Link, Routes } from 'react-router-dom';
+import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Home = () => {
   const { principal } = useConnect();
@@ -23,17 +25,16 @@ const Home = () => {
     const btn2 = Array.from(document.getElementsByClassName('ii-styles'));
 
     const custom_style = {
-      "color": "red",
-      "background-color": "blue",
-      "padding": "3px",
-      "margin-left": "4px"
+      color: "red",
+      backgroundColor: "blue",
+      padding: "3px",
+      marginLeft: "4px",
     };
 
     Object.assign(btn2[0].style, custom_style);
 
     const texto = Array.from(document.getElementsByClassName('button-label'));
-    if (texto[0])
-      texto[0].remove();
+    if (texto[0]) texto[0].remove();
 
     const img = Array.from(document.getElementsByClassName('img-styles'));
     img[0].style.height = "25px";
@@ -42,91 +43,95 @@ const Home = () => {
   onElementAvailable(".connect-button", () => {
     const btn = Array.from(document.getElementsByClassName('connect-button'));
     const custom_style = {
-      "background-color": "blue",
-      "font-size": "17px",
+      backgroundColor: "blue",
+      fontSize: "17px",
     };
     Object.assign(btn[0].style, custom_style);
     if (btn[0].textContent === 'Connect' || btn[0].textContent === 'Conectar II')
-      btn[0].textContent = 'Solicitar asesoria/presupuesto';
-    else
-      btn[0].textContent = 'Ver paquetes';
+      btn[0].textContent = 'Solicitar asesoría/presupuesto';
+    else btn[0].textContent = 'Ver paquetes';
   });
 
   return (
     <BrowserRouter>
-      <nav className="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
-        {principal ? (
-          <div className="container-fluid">
-            <Link to='/' className="navbar-brand">ICP Credentials</Link>
-            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span className="navbar-toggler-icon"></span>
-            </button>
-            <div className="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                <li className="nav-item">
-                  <a className="nav-link active" aria-current="page" href="#"></a>
-                </li>
-                <li className="nav-item dropdown">
-                  <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Área
-                  </a>
-                  <ul className="dropdown-menu">
-                    <li><Link to='/area-nueva' className="dropdown-item">Nuevo</Link></li>
-                    <li><Link to='/areas' className="dropdown-item" id="btnListaAreas">Lista</Link></li>
-                  </ul>
-                </li>
-                <li className="nav-item dropdown">
-                  <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded={false}>
-                    Programas
-                  </a>
-                  <ul className="dropdown-menu">
-                    <li><Link to='/programas' className="dropdown-item">Nuevo</Link></li>
-                    <li><Link to='/programas' className="dropdown-item">Lista</Link></li>
-                  </ul>
-                </li>
-                <li className="nav-item dropdown">
-                  <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Alumnos
-                  </a>
-                  <ul className="dropdown-menu">
-                    <li><Link to='/alumnos' className="dropdown-item">Nuevo</Link></li>
-                    <li><Link to='/alumnos' className="dropdown-item">Lista</Link></li>
-                  </ul>
-                </li>
-              </ul>
-              <ConnectButton />
-              <ConnectDialog />
-            </div>
+      <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div className="container-fluid">
+          <Link to='/' className="navbar-brand">ICP Credentials</Link>
+          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+              <li className="nav-item">
+                <Link to='/' className="nav-link">Bienvenida</Link>
+              </li>
+              <li className="nav-item">
+                <Link to='/areas' className="nav-link">Áreas</Link>
+              </li>
+              <li className="nav-item">
+                <Link to='/menu' className="nav-link">Menú</Link>
+              </li>
+              <li className="nav-item">
+                <Link to='/programas' className="nav-link">Programas</Link>
+              </li>
+            </ul>
+            {principal ? (
+              <>
+                <span className="navbar-text me-2">Inicia sesión</span>
+                <ConnectButton />
+                <ConnectDialog />
+              </>
+            ) : (
+              <>
+                <span className="navbar-text me-2">Inicia sesión</span>
+                <ConnectButton />
+                <ConnectDialog />
+              </>
+            )}
           </div>
-        ) : (
-          <div className="container-fluid">
-            <a className="navbar-brand" href="#">ICP Credentials</a>
-            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span className="navbar-toggler-icon"></span>
-            </button>
-            <div className="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                <li className="nav-item">
-                  <a className="nav-link active" aria-current="page" href="#"></a>
-                </li>
-              </ul>
-              <span className="fs-6 text" style={{ "color": "white", "margin-right": "5px" }}>Inicia sesión</span>
-              <ConnectButton />
-              <ConnectDialog />
-            </div>
-          </div>
-        )}
+        </div>
       </nav>
-      <div className="container">
-        <h1>Bienvenido a nuestro Proyecto</h1>
-        <p>Este es el texto de introducción a nuestro proyecto. Aquí puedes describir brevemente el objetivo y propósito de tu proyecto.</p>
+      <div className="container mt-4" style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '5px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>
+        <h1 className="text-center" style={{ color: '#343a40' }}>Bienvenido a nuestro Proyecto</h1>
+        <p className="text-center">Este es el texto de introducción a nuestro proyecto. Aquí puedes describir brevemente el objetivo y propósito de tu proyecto.</p>
       </div>
       <Routes>
-        {/* Aquí puedes agregar tus rutas */}
+        <Route path="/" element={<Bienvenida />} />
+        <Route path="/areas" element={<Areas />} />
+        <Route path="/menu" element={<Menu />} />
+        <Route path="/programas" element={<Programas />} />
       </Routes>
     </BrowserRouter>
   );
 };
+
+const Bienvenida = () => (
+  <div className="container" style={{ marginTop: '20px', padding: '20px', backgroundColor: '#ffffff', borderRadius: '5px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>
+    <h2 style={{ color: '#343a40' }}>Bienvenida</h2>
+    <p>Contenido de la página de bienvenida.</p>
+  </div>
+);
+
+const Areas = () => (
+  <div className="container" style={{ marginTop: '20px', padding: '20px', backgroundColor: '#ffffff', borderRadius: '5px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>
+    <h2 style={{ color: '#343a40' }}>Áreas</h2>
+    <p>Contenido de la página de áreas.</p>
+  </div>
+);
+
+const Menu = () => (
+  <div className="container" style={{ marginTop: '20px', padding: '20px', backgroundColor: '#ffffff', borderRadius: '5px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>
+    <h2 style={{ color: '#343a40' }}>Menú</h2>
+    <p>Contenido de la página de menú.</p>
+  </div>
+);
+
+const Programas = () => (
+  <div className="container" style={{ marginTop: '20px', padding: '20px', backgroundColor: '#ffffff', borderRadius: '5px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>
+    <h2 style={{ color: '#343a40' }}>Programas</h2>
+    <p>Contenido de la página de programas.</p>
+  </div>
+);
 
 const client = createClient({
   canisters: {
@@ -136,10 +141,6 @@ const client = createClient({
     new InternetIdentity({ providerUrl: "http://127.0.0.1:8000/?canisterId=bkyz2-fmaaa-aaaaa-qaaaq-cai" })
   ],
   globalProviderConfig: {
-    /*
-     * Disables dev mode in production
-     * Should be enabled when using local canisters
-     */
     dev: true,
   },
 });

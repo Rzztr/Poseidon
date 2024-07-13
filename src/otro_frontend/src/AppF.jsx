@@ -38,7 +38,7 @@ function App() {
         <ConnectDialog />
         {/* <IcpSocial /> */}
       </div>
-      <img src="/logo2.svg" alt="DFINITY logo" />
+      <img src="/favicon.ico" alt="DFINITY logo" />
       <br />
       <br />
       <form action="#" onSubmit={handleSubmit}>
