@@ -1,4 +1,5 @@
 import  Home  from './components/Home';
+import Bienvenida from './components/Bienvenida';
 import * as bootstrap from 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 function App(){
@@ -6,6 +7,8 @@ function App(){
         <div className='contanier' >
             {/* <Menu /> */}
             <Home />
+            <Bienvenida />
+            
             {/* <Login /> */}
         </div>
     )
